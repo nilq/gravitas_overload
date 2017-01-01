@@ -26,9 +26,21 @@ export game = {
   unit: 64
 }
 
+game.initialize_assets = ->
+  with game
+    .sprites = {}
+
+  with game.sprites
+    .grass_sprite = love.graphics.newImage "assets/backgrounds/background.png"
+    .grass_sprite\setWrap "repeat", "repeat"
+
+    .grass_quad = love.graphics.newQuad 0, 0, 800, 600, .grass_sprite\getWidth!, .grass_sprite\getHeight!
+
 game.load = ->
   with game
     .game_objects = {}
+
+    .initialize_assets!
 
     love.physics.setMeter .unit
     .world = love.physics.newWorld 0, 0, true
@@ -54,6 +66,8 @@ game.draw = ->
 
 game.draw_world = ->
   with game
+    love.graphics.draw .sprites.grass_sprite, .sprites.grass_quad, 0, 0
+
     for g in *.game_objects
       continue if g == nil
       g\draw! if g.draw

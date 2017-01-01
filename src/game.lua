@@ -21,9 +21,22 @@ game = {
   },
   unit = 64
 }
+game.initialize_assets = function()
+  do
+    game.sprites = { }
+  end
+  do
+    local _with_0 = game.sprites
+    _with_0.grass_sprite = love.graphics.newImage("assets/backgrounds/background.png")
+    _with_0.grass_sprite:setWrap("repeat", "repeat")
+    _with_0.grass_quad = love.graphics.newQuad(0, 0, 800, 600, _with_0.grass_sprite:getWidth(), _with_0.grass_sprite:getHeight())
+    return _with_0
+  end
+end
 game.load = function()
   do
     game.game_objects = { }
+    game.initialize_assets()
     love.physics.setMeter(game.unit)
     game.world = love.physics.newWorld(0, 0, true)
     game.camera = gamera.new(0, 0, love.graphics.getWidth(), love.graphics.getHeight())
@@ -67,6 +80,7 @@ game.draw = function()
 end
 game.draw_world = function()
   do
+    love.graphics.draw(game.sprites.grass_sprite, game.sprites.grass_quad, 0, 0)
     local _list_0 = game.game_objects
     for _index_0 = 1, #_list_0 do
       local _continue_0 = false
